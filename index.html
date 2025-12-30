@@ -29,16 +29,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
-        body {
-            font-family: 'Inter', 'Noto Sans JP', 'Noto Sans TC', sans-serif;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        body { font-family: 'Inter', 'Noto Sans JP', 'Noto Sans TC', sans-serif; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -63,13 +56,10 @@
     <script type="text/babel" src="app/pdf2md-ui.js"></script>
 </head>
 
-<body
-    class="bg-[#050505] text-zinc-100 h-screen flex flex-col overflow-hidden relative selection:bg-white/20 selection:text-white">
+<body class="bg-[#050505] text-zinc-100 h-screen flex flex-col overflow-hidden relative selection:bg-white/20 selection:text-white">
 
     <!-- Ambient Spotlight -->
-    <div
-        class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[100px] rounded-full pointer-events-none mix-blend-screen opacity-40">
-    </div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[100px] rounded-full pointer-events-none mix-blend-screen opacity-40"></div>
 
     <div class="flex flex-col h-full max-w-4xl mx-auto w-full p-6 md:pt-12 md:pb-1">
         <!-- Header -->
