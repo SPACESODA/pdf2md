@@ -1,21 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to Markdown Bulk Converter</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>pdf2md - PDF to Markdown Converter</title>
+    <meta name="description" content="Convert PDFs to clean, LLM-ready Markdown in your browser. Batch process files locally with no uploads.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://spacesoda.github.io/pdf2md/">
     <!-- CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://cdnjs.cloudflare.com https://unpkg.com https://cloud.umami.is https://api-gateway.umami.dev; worker-src 'self' blob: https://cdnjs.cloudflare.com;">
+    <!-- Social -->
+    <meta property="og:title" content="pdf2md - PDF to Markdown Converter">
+    <meta property="og:description" content="Convert PDFs to clean, LLM-ready Markdown in your browser. Batch process files locally with no uploads.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://spacesoda.github.io/pdf2md/">
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:title" content="pdf2md - PDF to Markdown Converter">
+    <meta property="twitter:description" content="Convert PDFs to clean, LLM-ready Markdown in your browser. Batch process files locally with no uploads.">
+    <meta property="twitter:url" content="https://spacesoda.github.io/pdf2md/">
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="shortcut icon" href="assets/favicon.ico">
-    <!-- URL -->
-    <meta property="og:url" content="https://spacesoda.github.io/pdf2md/">
-    <meta property="twitter:url" content="https://spacesoda.github.io/pdf2md/">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Inter', 'Noto Sans JP', 'Noto Sans TC', sans-serif;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Framework (React, Babel) -->
@@ -37,17 +61,15 @@
     <script defer src="https://cloud.umami.is/script.js" data-website-id="8771ed9f-edd3-4665-bf16-1bc95940af08"></script>
     <!-- UI -->
     <script type="text/babel" src="app/pdf2md-ui.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
-        body { font-family: 'Inter', 'Noto Sans JP', 'Noto Sans TC', sans-serif; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
 </head>
-<body class="bg-[#050505] text-zinc-100 h-screen flex flex-col overflow-hidden relative selection:bg-white/20 selection:text-white">
+
+<body
+    class="bg-[#050505] text-zinc-100 h-screen flex flex-col overflow-hidden relative selection:bg-white/20 selection:text-white">
 
     <!-- Ambient Spotlight -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[100px] rounded-full pointer-events-none mix-blend-screen opacity-40"></div>
+    <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[100px] rounded-full pointer-events-none mix-blend-screen opacity-40">
+    </div>
 
     <div class="flex flex-col h-full max-w-4xl mx-auto w-full p-6 md:pt-12 md:pb-1">
         <!-- Header -->
@@ -56,10 +78,10 @@
                 Beta
             </div>
             <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-2">
-                PDF to Markdown
+                pdf2md
             </h1>
             <p class="text-zinc-300 text-lg max-w-lg mx-auto leading-relaxed">
-                Convert your PDF books into clean, LLM-ready text.
+                Convert PDF books into clean, LLM-ready markdown files.
                 <br>
                 <span class="text-[13px] text-zinc-500 opacity-80">All files processed in your browser locally. No uploads to any server.</span>
             </p>
@@ -79,4 +101,5 @@
     </div>
 
 </body>
+
 </html>
