@@ -92,10 +92,10 @@ const FileRow = ({ fileData, onDownload, onRemove }) => {
 
     return h(
         'div',
-        { className: 'flex items-center justify-between p-4 bg-zinc-800 border border-zinc-700 hover:border-zinc-500 rounded-xl transition-all mb-3 group' },
+        { className: 'flex items-center justify-between p-3 md:p-4 bg-zinc-800 border border-zinc-700 hover:border-zinc-500 rounded-xl transition-all mb-3 group' },
         h(
             'div',
-            { className: 'flex items-center space-x-4 overflow-hidden' },
+            { className: 'flex items-center space-x-3 md:space-x-4 overflow-hidden' },
             h(
                 'div',
                 { className: `w-10 h-10 min-w-[2.5rem] rounded-full flex items-center justify-center flex-shrink-0 ${statusBg[fileData.status] || statusBg.queued}` },
@@ -356,7 +356,7 @@ const App = () => {
                 if (err.name === 'AbortError') {
                     updateFileStatus(item.id, 'skipped', null, null);
                     if (typeof processPromise !== 'undefined') {
-                        processPromise.catch(() => {});
+                        processPromise.catch(() => { });
                     }
                     continue;
                 } else if (err.name === 'PasswordException') {
@@ -446,18 +446,17 @@ const App = () => {
 
     return h(
         'div',
-        { className: 'flex flex-col lg:h-full max-w-4xl mx-auto w-full p-4 lg:p-6 lg:pt-8 lg:pb-4' },
+        { className: 'flex flex-col lg:h-full max-w-4xl mx-auto w-full mt-6 lg:mt-0 lg:pt-8 lg:pb-4' },
         h(
             'div',
             { className: 'flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 lg:overflow-hidden min-h-0' },
             h(
                 'div',
                 {
-                    className: `lg:w-1/3 flex-shrink-0 border border-dashed rounded-2xl flex lg:flex-col items-center justify-center p-4 lg:p-8 gap-4 lg:gap-0 transition-all cursor-pointer group ${
-                        isDragging
-                            ? 'border-white bg-white/10 shadow-[0_0_30px_rgba(255,255,255,0.2)]'
-                            : 'border-zinc-600 hover:border-zinc-400 bg-zinc-900 hover:bg-zinc-800'
-                    }`,
+                    className: `lg:w-1/3 flex-shrink-0 border border-dashed rounded-2xl flex lg:flex-col items-center justify-center p-4 lg:p-8 gap-4 lg:gap-0 transition-all cursor-pointer group ${isDragging
+                        ? 'border-white bg-white/10 shadow-[0_0_30px_rgba(255,255,255,0.2)]'
+                        : 'border-zinc-600 hover:border-zinc-400 bg-zinc-900 hover:bg-zinc-800'
+                        }`,
                     onDragOver: handleDragOver,
                     onDragLeave: handleDragLeave,
                     onDrop: handleDrop,
@@ -492,7 +491,7 @@ const App = () => {
             ),
             h(
                 'div',
-                { className: 'flex-1 flex flex-col lg:min-h-0 min-h-[60vh] bg-zinc-900 rounded-2xl border border-zinc-700 overflow-hidden' },
+                { className: 'flex-1 flex flex-col lg:min-h-0 min-h-[50vh] bg-zinc-900 rounded-2xl border border-zinc-700 overflow-hidden' },
                 h(
                     'div',
                     { className: 'px-5 py-4 border-b border-zinc-700 flex items-center justify-between bg-white/[0.02]' },
@@ -531,17 +530,17 @@ const App = () => {
                 ),
                 h(
                     'div',
-                    { className: 'flex-1 overflow-y-auto p-4 custom-scrollbar' },
+                    { className: 'flex-1 overflow-y-auto p-2 md:p-4 custom-scrollbar' },
                     files.length === 0
                         ? h(
                             'div',
                             { className: 'h-full flex flex-col items-center justify-center text-zinc-300 space-y-4' },
                             h(
                                 'div',
-                                { className: 'w-16 h-16 rounded-full bg-zinc-800 border border-zinc-600 flex items-center justify-center' },
+                                { className: 'w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center' },
                                 h(Icon, { name: 'layout-list', className: 'w-8 h-8 text-zinc-400' })
                             ),
-                            h('p', { className: 'text-zinc-300 text-sm font-medium' }, 'Queue is empty')
+                            h('p', { className: 'text-zinc-600 text-sm font-medium' }, 'Queue is empty')
                         )
                         : files.map(file => h(FileRow, {
                             key: file.id,
