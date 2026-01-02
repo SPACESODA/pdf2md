@@ -9,7 +9,7 @@
     <meta name="robots" content="index,follow">
     <link rel="canonical" href="https://spacesoda.github.io/pdf2md/">
     <!-- CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com https://cloud.umami.is https://api-gateway.umami.dev; worker-src 'self' blob: https://cdnjs.cloudflare.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com https://cloud.umami.is https://api-gateway.umami.dev; worker-src 'self' blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;">
     <!-- Social -->
     <meta property="og:title" content="pdf2md - PDF to Markdown Converter">
     <meta property="og:description" content="Convert PDFs to clean, LLM-ready Markdown in your browser. Batch process files locally with no uploads.">
@@ -34,8 +34,8 @@
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
     <!-- Preload Core Dependencies -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" as="script" crossorigin>
-    <link rel="prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js" as="script" crossorigin>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js" as="script" crossorigin>
+    <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js" as="script" crossorigin>
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Framework (React) -->
@@ -44,9 +44,9 @@
     <!-- Icons -->
     <script defer src="https://unpkg.com/lucide@latest"></script>
     <!-- Logic Dependencies (PDF.js, JSZip) -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js" crossorigin="anonymous"></script>
     <script defer src="app/pdf2md-config.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <!-- Core App Logic -->
     <script defer src="app/pdf2md.js"></script>
     <!-- UI -->

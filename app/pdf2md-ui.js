@@ -478,12 +478,12 @@ const App = () => {
                 h(
                     'div',
                     { className: 'text-left lg:text-center' },
-                    h('h3', { className: 'text-sm lg:text-base font-medium text-white mb-0.5 lg:mb-1' }, 'Add Documents'),
+                    h('h3', { className: 'text-sm lg:text-base font-medium text-white mb-0.5 lg:mb-1' }, 'Add PDFs'),
                     h(
                         'p',
                         { className: 'text-xs text-zinc-300 lg:text-center leading-relaxed' },
-                        h('span', { className: 'hidden lg:inline' }, 'Drop PDFs here or click to browse'),
-                        h('span', { className: 'lg:hidden' }, 'Tap to browse PDFs'),
+                        h('span', { className: 'hidden lg:inline' }, 'Drop files here or click to browse'),
+                        h('span', { className: 'lg:hidden' }, 'Tap to browse files'),
                         h('br', { className: 'hidden lg:block' }),
                         h('span', { className: 'hidden lg:inline text-zinc-500 text-[10px] lg:text-xs ml-1 lg:ml-0' }, 'max 1GB')
                     )
@@ -534,7 +534,7 @@ const App = () => {
                     files.length === 0
                         ? h(
                             'div',
-                            { className: 'h-full flex flex-col items-center justify-center text-zinc-300 space-y-4' },
+                            { className: 'h-full flex flex-col items-center justify-center text-zinc-300 space-y-4 py-8' },
                             h(
                                 'div',
                                 { className: 'w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center' },
