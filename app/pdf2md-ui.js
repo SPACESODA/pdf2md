@@ -239,7 +239,7 @@ const App = () => {
                     trackEvent('pdf | File Skipped', { reason: 'Unavailable', fileName: f.name });
                 } else if (f.size > MAX_FILE_SIZE) {
                     status = 'skipped';
-                    errorMsg = 'File over 1GB';
+                    errorMsg = 'File over 1 GB';
                     trackEvent('pdf | File Skipped', { reason: 'Too Large', fileName: f.name });
                 }
 
@@ -369,9 +369,9 @@ const App = () => {
                     }
                     continue;
                 } else if (err.name === 'PasswordException') {
-                    msg = 'Password protected PDF';
+                    msg = 'Password-protected PDF';
                 } else if (err.message && err.message.includes('password')) {
-                    msg = 'Password protected PDF';
+                    msg = 'Password-protected PDF';
                 } else if (err.name === 'NotReadableError' || err.name === 'NotFoundError') {
                     msg = 'File not available. Please make sure it is fully downloaded.';
                 } else {
@@ -414,7 +414,7 @@ const App = () => {
     const downloadAllZip = async () => {
         const ZipCtor = window.JSZip;
         if (typeof ZipCtor !== 'function') {
-            window.alert('Zip download unavailable. Please refresh browser and convert again.');
+            window.alert('Zip download unavailable. Please refresh the browser and convert again.');
             return;
         }
 
@@ -496,7 +496,7 @@ const App = () => {
                         h('span', { className: 'hidden lg:inline' }, 'Drop files here or click to browse'),
                         h('span', { className: 'lg:hidden' }, 'Tap to browse files'),
                         h('br', { className: 'hidden lg:block' }),
-                        h('span', { className: 'hidden lg:inline text-zinc-500 text-[10px] lg:text-xs ml-1 lg:ml-0' }, 'max 1GB')
+                        h('span', { className: 'hidden lg:inline text-zinc-500 text-[10px] lg:text-xs ml-1 lg:ml-0' }, 'Max 1 GB')
                     )
                 )
             ),

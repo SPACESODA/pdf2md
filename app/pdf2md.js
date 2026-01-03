@@ -66,7 +66,7 @@ const processPDF = async (file, options = {}) => {
         if (allItems.length === 0) {
             // Return title with warning instead of crashing or empty file
             const title = file.name.replace(/\.[^/.]+$/, "");
-            return `# ${title}\n\n*[No text detected. This might be a scanned PDF image.]*`;
+            return `# ${title}\n\n[No text detected. This may be an image-only PDF.]`;
         }
 
         // 2. Statistical Analysis for Body Text Size (Mode)
