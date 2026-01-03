@@ -10,7 +10,7 @@
   - Removing split words caused by hyphenation.
   - Merging hard-wrapped lines while preserving paragraphs.
   - Detecting and formatting headers.
-  - Removing page numbers and headers/footers.
+  - Removing page numbers (basic detection).
 - **Fast Batch Processing**: Drag and drop multiple PDFs to convert them all at once.
 - **Bulk Download**: Download all converted files as a single ZIP archive.
 
