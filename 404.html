@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pdf2txt - Page Not Found</title>
+    <meta name="robots" content="noindex">
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+            background: #050505;
+            color: #f4f4f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        a { color: #a1a1aa; }
+    </style>
+    <script>
+        (function () {
+            var path = window.location.pathname || '/';
+            if (!path.endsWith('/')) {
+                var target = path + '/' + window.location.search + window.location.hash;
+                window.location.replace(target);
+            }
+        })();
+    </script>
+</head>
+<body>
+    <div>
+        <h1>Page not found</h1>
+        <p><a href="./">Go to home</a></p>
+    </div>
+</body>
+</html>

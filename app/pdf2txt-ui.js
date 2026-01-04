@@ -7,6 +7,10 @@ const UNLOCK_QUEUED_STATUS = 'unlock-queued';
 const ENGINE_SOFT_RETRY_MS = 5000;
 const ENGINE_SOFT_RETRIES_PER_HARD = 5;
 const ENGINE_MAX_HARD_RETRIES = 5;
+const STRINGS = window.pdf2txtStrings || {};
+const getString = (key) => key.split('.')
+    .reduce((acc, part) => (acc && acc[part]) ? acc[part] : null, STRINGS);
+const t = (key, fallback) => getString(key) || fallback || key;
 
 // --- Error Boundary ---
 class ErrorBoundary extends React.Component {
@@ -28,7 +32,7 @@ class ErrorBoundary extends React.Component {
             return h(
                 'div',
                 { className: 'p-8 text-center' },
-                h('h1', { className: 'text-2xl font-bold text-red-500 mb-4 tracking-tight' }, 'Something went wrong.'),
+                h('h1', { className: 'text-2xl font-bold text-red-500 mb-4 tracking-tight' }, t('errorBoundary.title', 'Something went wrong.')),
                 h(
                     'pre',
                     { className: 'bg-zinc-900/50 p-4 rounded text-left overflow-auto text-sm text-red-400 border border-red-900/20' },
@@ -40,7 +44,7 @@ class ErrorBoundary extends React.Component {
                         onClick: () => window.location.reload(),
                         className: 'mt-6 px-6 py-2 bg-white text-black rounded-full font-medium hover:bg-zinc-200 transition-colors'
                     },
-                    'Reload Page'
+                    t('errorBoundary.reload', 'Reload Page')
                 )
             );
         }
@@ -110,19 +114,23 @@ const FileRow = ({ fileData, onDownload, onRemove, outputFormat, onPasswordChang
         ? passwordHelper.PASSWORD_STATUS
         : 'password';
 
-    const statusLabel = passwordHelper && typeof passwordHelper.getStatusLabel === 'function'
-        ? passwordHelper.getStatusLabel(fileData.status)
-        : (fileData.status === passwordStatus ? 'needs password' : fileData.status);
+    const statusLabel = fileData.status === passwordStatus
+        ? t('fileRow.needsPassword', 'needs password')
+        : t(`status.${fileData.status}`, fileData.status);
     const displayStatusLabel = fileData.status === unlockQueuedStatus
-        ? 'unlocked'
+        ? t('fileRow.unlocked', 'unlocked')
         : statusLabel;
 
     const shouldShowPasswordField = (passwordHelper && typeof passwordHelper.shouldShowPasswordField === 'function'
         ? passwordHelper.shouldShowPasswordField(fileData)
         : fileData.status === passwordStatus) || fileData.status === unlockQueuedStatus;
 
-    const downloadLabel = outputFormat === 'md' ? 'Download Markdown' : 'Download TXT';
-    const unlockButtonLabel = fileData.status === unlockQueuedStatus ? 'Unlocked. Please wait.' : 'Unlock';
+    const downloadLabel = outputFormat === 'md'
+        ? t('fileRow.downloadMarkdown', 'Download Markdown')
+        : t('fileRow.downloadTxt', 'Download TXT');
+    const unlockButtonLabel = fileData.status === unlockQueuedStatus
+        ? t('fileRow.unlockQueued', 'Unlocked. Please wait.')
+        : t('fileRow.unlock', 'Unlock');
 
     return h(
         'div',
@@ -160,7 +168,7 @@ const FileRow = ({ fileData, onDownload, onRemove, outputFormat, onPasswordChang
                         h('input', {
                             type: supportsWebkitTextSecurity ? 'text' : 'password',
                             value: fileData.password || '',
-                            placeholder: 'Enter password',
+                            placeholder: t('fileRow.enterPassword', 'Enter password'),
                             name: `file-key-${fileData.id}`,
                             autoComplete: 'off',
                             autoCorrect: 'off',
@@ -216,7 +224,9 @@ const FileRow = ({ fileData, onDownload, onRemove, outputFormat, onPasswordChang
                 {
                     onClick: () => onRemove(fileData.id),
                     className: 'w-8 h-8 flex items-center justify-center text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors',
-                    title: fileData.status === 'processing' ? 'Cancel Processing' : 'Remove File'
+                    title: fileData.status === 'processing'
+                        ? t('fileRow.cancelProcessing', 'Cancel Processing')
+                        : t('fileRow.removeFile', 'Remove File')
                 },
                 h(Icon, { name: 'x', className: 'w-4 h-4' })
             )
@@ -323,7 +333,7 @@ const App = () => {
         if (engineRetryActiveRef.current || engineFinalErrorRef.current) return;
         engineRetryActiveRef.current = true;
         setEngineError(true);
-        setEngineErrorMessage("PDF engine didn't load. Retrying in 5s...");
+        setEngineErrorMessage(t('engine.failedRetry', "PDF engine didn't load. Retrying in 5s..."));
 
         const tick = () => {
             engineRetryTimerRef.current = setTimeout(() => {
@@ -337,7 +347,7 @@ const App = () => {
                 if (engineHardRetriesRef.current >= ENGINE_MAX_HARD_RETRIES) {
                     engineFinalErrorRef.current = true;
                     setEngineError(true);
-                    setEngineErrorMessage("PDF engine didn't load. Try again later.");
+                    setEngineErrorMessage(t('engine.failedLater', "PDF engine didn't load. Try again later."));
                     stopEngineRetryLoop();
                     return;
                 }
@@ -417,11 +427,11 @@ const App = () => {
                 // Size Limit Check
                 if (f.size === 0) {
                     status = 'skipped';
-                    errorMsg = 'File not available offline (0 bytes)';
+                    errorMsg = t('errors.fileUnavailableOffline', 'File not available offline (0 bytes)');
                     trackEvent('pdf | File Skipped', { reason: 'Unavailable', fileName: f.name });
                 } else if (f.size > MAX_FILE_SIZE) {
                     status = 'skipped';
-                    errorMsg = 'File over 1 GB';
+                    errorMsg = t('errors.fileTooLarge', 'File over 1 GB');
                     trackEvent('pdf | File Skipped', { reason: 'Too Large', fileName: f.name });
                 }
 
@@ -533,7 +543,7 @@ const App = () => {
             }
             if (!engineFinalErrorRef.current) {
                 setEngineError(true);
-                setEngineErrorMessage("PDF engine didn't load. Retrying in 5s...");
+                setEngineErrorMessage(t('engine.failedRetry', "PDF engine didn't load. Retrying in 5s..."));
                 startEngineRetryLoop();
             }
             engineWaitPromiseRef.current = null;
@@ -626,7 +636,7 @@ const App = () => {
                 }
             }
         } catch (err) {
-            let msg = 'Error converting file';
+            let msg = t('errors.errorConverting', 'Error converting file');
 
             if (err.name === 'AbortError') {
                 updateFileStatus(item.id, 'skipped', null, null);
@@ -645,9 +655,9 @@ const App = () => {
                 trackEvent('pdf | Password Required', { fileName: item.file.name });
                 return;
             } else if (err.name === 'NotReadableError' || err.name === 'NotFoundError') {
-                msg = 'File not available. Please make sure it is fully downloaded.';
+                msg = t('errors.fileNotAvailable', 'File not available. Please make sure it is fully downloaded.');
             } else {
-                msg = err.message || 'Unknown error';
+                msg = err.message || t('errors.unknown', 'Unknown error');
             }
 
             console.error(err);
@@ -726,7 +736,7 @@ const App = () => {
     const downloadAllZip = async () => {
         const ZipCtor = window.JSZip;
         if (typeof ZipCtor !== 'function') {
-            window.alert('Zip download unavailable. Please refresh the browser and convert again.');
+            window.alert(t('alerts.zipUnavailable', 'Zip download unavailable. Please refresh the browser and convert again.'));
             return;
         }
 
@@ -803,14 +813,14 @@ const App = () => {
                 h(
                     'div',
                     { className: 'text-left lg:text-center' },
-                    h('h3', { className: 'text-sm lg:text-base font-medium text-white mb-0.5 lg:mb-1' }, 'Add PDFs'),
+                    h('h3', { className: 'text-sm lg:text-base font-medium text-white mb-0.5 lg:mb-1' }, t('dropzone.addPdfs', 'Add PDFs')),
                     h(
                         'p',
                         { className: 'text-xs text-zinc-300 lg:text-center leading-relaxed' },
-                        h('span', { className: 'hidden lg:inline' }, 'Drop files here or click to browse'),
-                        h('span', { className: 'lg:hidden' }, 'Tap to browse files'),
+                        h('span', { className: 'hidden lg:inline' }, t('dropzone.dropFiles', 'Drop files here or click to browse')),
+                        h('span', { className: 'lg:hidden' }, t('dropzone.tapToBrowse', 'Tap to browse files')),
                         h('br', { className: 'hidden lg:block' }),
-                        h('span', { className: 'hidden lg:inline text-zinc-500 text-[10px] lg:text-xs ml-1 lg:ml-0' }, 'Max 1 GB')
+                        h('span', { className: 'hidden lg:inline text-zinc-500 text-[10px] lg:text-xs ml-1 lg:ml-0' }, t('dropzone.maxSize', 'Max 1 GB'))
                     )
                 )
             ),
@@ -826,20 +836,20 @@ const App = () => {
                         h(
                             'div',
                             { className: 'text-xs font-semibold tracking-wider text-zinc-300 uppercase' },
-                            `Queue (${stats.done}/${stats.total})`
+                            `${t('queue.label', 'Queue')} (${stats.done}/${stats.total})`
                         ),
                         !engineReady && !engineError
                             ? h(
                                 'div',
                                 { className: 'text-[10px] font-medium tracking-wider text-zinc-500 uppercase' },
-                                'PDF engine loading...'
+                                t('engine.loading', 'PDF engine loading...')
                             )
                             : null,
                         engineError
                             ? h(
                                 'div',
                                 { className: 'text-[10px] font-semibold tracking-wider text-red-200 uppercase bg-red-500/10 border border-red-500/20 px-2 py-1 rounded-full' },
-                                engineErrorMessage || "PDF engine didn't load. Please refresh."
+                                engineErrorMessage || t('engine.failedRefresh', "PDF engine didn't load. Please refresh.")
                             )
                             : null
                     ),
@@ -853,7 +863,7 @@ const App = () => {
                                     onClick: () => { trackEvent('pdf | Queue Cleared'); updateFiles(() => []); },
                                     disabled: isProcessing,
                                     className: 'p-2 text-zinc-400 hover:text-red-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed',
-                                    title: 'Clear All'
+                                    title: t('queue.clearAll', 'Clear All')
                                 },
                                 h(Icon, { name: 'trash-2', className: 'w-4 h-4' })
                             )
@@ -872,8 +882,8 @@ const App = () => {
                                 { className: 'w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center' },
                                 h(Icon, { name: 'layout-list', className: 'w-8 h-8 text-zinc-400' })
                             ),
-                            h('p', { className: 'text-zinc-600 text-sm font-medium' }, 'Queue is empty'),
-                            h('p', { className: 'text-zinc-500 text-xs' }, 'All files are processed locally in your browser.')
+                            h('p', { className: 'text-zinc-600 text-sm font-medium' }, t('queue.emptyTitle', 'Queue is empty')),
+                            h('p', { className: 'text-zinc-500 text-xs' }, t('queue.emptySubtitle', 'All files are processed locally in your browser.'))
                         )
                         : files.map(file => h(FileRow, {
                             key: file.id,
@@ -936,10 +946,12 @@ const App = () => {
                                     onClick: downloadAllZip,
                                     disabled: isProcessing || !zipAvailable,
                                     className: 'px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-black text-sm font-semibold shadow-[0_0_20px_rgba(255,255,255,0.1)] disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-2',
-                                    title: zipAvailable ? 'Download Zip' : 'Zip download unavailable (JSZip not loaded yet)'
+                                    title: zipAvailable
+                                        ? t('actions.downloadZip', 'Download Zip')
+                                        : t('actions.zipUnavailable', 'Zip download unavailable (JSZip not loaded yet)')
                                 },
                                 h(Icon, { name: 'archive', className: 'w-4 h-4' }),
-                                h('span', null, 'Download Zip')
+                                h('span', null, t('actions.downloadZip', 'Download Zip'))
                             )
                             : null,
                         stats.queued > 0
@@ -950,20 +962,22 @@ const App = () => {
                                     onClick: (e) => { e.preventDefault(); convertAll(); },
                                     disabled: isProcessing || anyProcessing || !engineReady,
                                     className: 'px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-black text-sm font-semibold shadow-[0_0_20px_rgba(255,255,255,0.1)] disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-2',
-                                    title: !engineReady ? 'PDF engine is loading' : 'Convert All'
+                                    title: !engineReady
+                                        ? t('engine.loadingTitle', 'PDF engine is loading')
+                                        : t('actions.convertAll', 'Convert All')
                                 },
                                 isProcessing
                                     ? h(
                                         Fragment,
                                         null,
                                         h(Icon, { name: 'loader-2', className: 'w-4 h-4 animate-spin' }),
-                                        h('span', null, 'Processing...')
+                                        h('span', null, t('actions.processing', 'Processing...'))
                                     )
                                     : h(
                                         Fragment,
                                         null,
                                         h(Icon, { name: 'sparkles', className: 'w-4 h-4' }),
-                                        h('span', null, 'Convert All')
+                                        h('span', null, t('actions.convertAll', 'Convert All'))
                                     )
                             )
                             : null
