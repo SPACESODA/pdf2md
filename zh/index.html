@@ -32,12 +32,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
-        body { font-family: 'Inter', 'Noto Sans JP', 'Noto Sans TC', sans-serif; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
     <!-- Preload Core Dependencies -->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js" as="script" crossorigin>
     <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js" as="script" crossorigin>
@@ -111,15 +106,20 @@
             <div class="tracking-wide text-zinc-200">
                 &copy; <a href="https://github.com/SPACESODA" class="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">SPACESODA</a> / <a href="https://github.com/realanthonyc" class="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">ANTHONYC</a>
             </div>
-            <div>Released under the MIT License.</div>
             <div>
                 <a href="https://github.com/SPACESODA/pdf2txt/" class="hover:text-zinc-200 transition-colors" rel="noopener noreferrer" target="_blank">
                     ★ 在 GitHub 給個星吧
                 </a>
             </div>
+            <nav class="footer-menu" aria-label="Related tools" class="hover:text-zinc-400">
+                <a href="https://spacesoda.github.io/epub2txt/" target="_blank" rel="noopener noreferrer">EPUB to TXT</a>
+                <span class="footer-separator">|</span>
+                <a href="https://spacesoda.github.io/pdf2txt/" target="_blank" rel="noopener noreferrer" class="footer-current">PDF to TXT</a>
+                <span class="footer-separator">|</span>
+                <a href="https://github.com/SPACESODA/youtube2txt" target="_blank" rel="noopener noreferrer">YouTube to TXT</a>
+            </nav>
         </footer>
     </div>
-
 
 </body>
 
