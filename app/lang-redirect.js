@@ -1,11 +1,13 @@
 (() => {
     const STORAGE_KEY = 'pdf2txt-lang';
     const path = window.location.pathname || '/';
+    const search = window.location.search || '';
+    const hash = window.location.hash || '';
 
     const ensureTrailingSlash = () => {
         // Only check strictly for the language folders we know about.
         if ((path.endsWith('/ja') || path.endsWith('/zh')) && !path.endsWith('/')) {
-            const target = `${path}/` + window.location.search + window.location.hash;
+            const target = `${path}/` + search + hash;
             window.location.replace(target);
             return true;
         }
@@ -63,7 +65,7 @@
     const redirectIfNeeded = (lang) => {
         const target = targetFor(lang);
         if (normalizePath(path) === normalizePath(target)) return;
-        window.location.replace(target);
+        window.location.replace(`${target}${search}${hash}`);
     };
 
     const safeStorageGet = (key) => {
@@ -82,36 +84,24 @@
         }
     };
 
+    const detectBrowserLang = () => {
+        const primary = (navigator.languages && navigator.languages.length)
+            ? navigator.languages[0]
+            : (navigator.language || navigator.userLanguage || '');
+        return normalizeLang(primary) || 'en';
+    };
+
     const saved = normalizeLang(safeStorageGet(STORAGE_KEY));
 
-    // If the user visits a specific language page (non-root/en),
-    // trust that as the new preference and update storage accordingly.
-    // 'en' is treated as a default fallback, so storage is not auto-updated just for landing on it.
-    if (currentLang !== 'en') {
-        if (saved !== currentLang) {
-            safeStorageSet(STORAGE_KEY, currentLang);
-        }
-    } else {
+    // Only redirect from the root/English page; direct /ja/ or /zh/ visits stay put.
+    if (currentLang === 'en') {
         if (saved && saved !== 'en') {
             redirectIfNeeded(saved);
             return;
         }
 
         if (!saved) {
-            const languageList = (navigator.languages && navigator.languages.length)
-                ? navigator.languages
-                : [navigator.language || navigator.userLanguage || ''];
-            let detected = 'en';
-            for (const lang of languageList) {
-                const normalized = normalizeLang(lang);
-                if (normalized === 'ja') {
-                    detected = 'ja';
-                    break;
-                }
-                if (normalized === 'zh') {
-                    detected = 'zh';
-                }
-            }
+            const detected = detectBrowserLang();
             if (detected !== 'en') {
                 redirectIfNeeded(detected);
                 return;
